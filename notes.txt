@@ -1,0 +1,16 @@
+Random cat - application to display random cat picture stored in database.
+
+Very basic version 0.1.0
+- setup S3 bucket with manually uploaded cat pics
+- app read random pic on demand
+- frontend - vaadin, just single button and place for displaying pic
+
+Future versions:
+- create user accounts and restrict user to display only single pic per day
+- premium version
+    -- ask to pay for charity
+    -- pay me?! I mean support creator
+- videos
+
+Be careful versions:
+- users upload their pics - make it restricted, under review so db does not blow up, or if user paid?
