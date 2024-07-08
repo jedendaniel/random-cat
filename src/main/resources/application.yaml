@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: random-cat
+
+aws:
+  region: eu-central-1
+  bucketName: ddd-cat-bucket
