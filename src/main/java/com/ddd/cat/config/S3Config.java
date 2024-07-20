@@ -13,7 +13,7 @@ public class S3Config {
     @Bean
     public S3Client s3Client(AwsProperties awsProperties) {
         return S3Client.builder()
-                .region(Region.of(awsProperties.getAwsRegion()))
+                .region(Region.of(awsProperties.getRegion()))
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
     }

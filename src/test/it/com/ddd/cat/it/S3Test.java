@@ -1,26 +1,35 @@
 package com.ddd.cat.it;
 
-import com.ddd.cat.mock.S3ServerMock;
 import com.ddd.cat.properties.AwsProperties;
+import com.ddd.cat.service.S3Service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@ContextConfiguration(classes = {AwsProperties.class, S3ServerMock.class})
 public class S3Test {
     @Autowired
-    private S3Client s3Client;
+    private S3Service s3Service;
+    @Autowired
+    private AwsProperties awsProperties;
 
     @Test
     void shouldListObjects() {
-        ListObjectsV2Response listObjectsV2Response = s3Client.listObjectsV2(ListObjectsV2Request.builder().build());
-        assertEquals(4, listObjectsV2Response.contents().size());
+        List<String> catPicKeys = s3Service.listCatPicKeys();
+        assertEquals(2, catPicKeys.size());
+    }
+
+    @Test
+    void shouldGetObjectAsBytes() {
+        List<String> catPicNames = s3Service.listCatPicKeys();
+        assertFalse(catPicNames.isEmpty());
+        byte[] objectAsBytes = s3Service.getCatPicAsByteArray(catPicNames.get(0));
+        assertTrue(objectAsBytes.length > 0);
     }
 }
