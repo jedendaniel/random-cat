@@ -21,7 +21,7 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
-    public List<String> listCatPicKeys() {
+    public List<String> listCatKeys() {
         ListObjectsV2Request listObjectsV2Request = ListObjectsV2Request.builder()
                 .bucket(awsProperties.getBucketName())
                 .build();

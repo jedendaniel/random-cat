@@ -25,7 +25,7 @@ class S3ServiceTest {
         ListObjectsV2Response listObjectsV2Response = ListObjectsV2Response.builder()
                 .contents(List.of(S3Object.builder().key("pic1").build())).build();
         when(s3Client.listObjectsV2(any(ListObjectsV2Request.class))).thenReturn(listObjectsV2Response);
-        List<String> catPicsFileNames = s3Service.listCatPicKeys();
+        List<String> catPicsFileNames = s3Service.listCatKeys();
         assertFalse(catPicsFileNames.isEmpty());
     }
 }

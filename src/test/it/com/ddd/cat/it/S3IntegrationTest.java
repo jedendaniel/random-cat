@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class S3Test {
+public class S3IntegrationTest {
     @Autowired
     private S3Service s3Service;
     @Autowired
@@ -21,13 +21,13 @@ public class S3Test {
 
     @Test
     void shouldListObjects() {
-        List<String> catPicKeys = s3Service.listCatPicKeys();
+        List<String> catPicKeys = s3Service.listCatKeys();
         assertEquals(2, catPicKeys.size());
     }
 
     @Test
     void shouldGetObjectAsBytes() {
-        List<String> catPicNames = s3Service.listCatPicKeys();
+        List<String> catPicNames = s3Service.listCatKeys();
         assertFalse(catPicNames.isEmpty());
         byte[] objectAsBytes = s3Service.getCatPicAsByteArray(catPicNames.get(0));
         assertTrue(objectAsBytes.length > 0);

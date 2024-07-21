@@ -5,3 +5,6 @@ spring:
 aws:
   region: eu-central-1
   bucketName: ddd-cat-bucket
+
+scheduled:
+  reset: "0 0 0 * * *"
