@@ -3,6 +3,7 @@ spring:
     name: random-cat
 
 aws:
+#  enabled: true
   region: eu-central-1
   bucketName: ddd-cat-bucket
 

@@ -5,10 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p th:text="|Greetings from ${appName}!|"></p>
-    <p th:text="|Click to generate random cat picture|"></p>
-    <a th:href ="@{cat}" class="btn btn-success btn-block">
-        Generate
-    </a>
+<img th:src="|data:image/jpg;charset=utf-8;base64, ${catPicture}|" alt="">
 </body>
 </html>

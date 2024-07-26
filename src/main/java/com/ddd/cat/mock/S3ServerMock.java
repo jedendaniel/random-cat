@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 public class S3ServerMock implements S3Client {
     public static final Logger LOGGER = LoggerFactory.getLogger(S3ServerMock.class.getSimpleName());
-    public static final String RESOURCES_MAIN = "it/";
+    public static final String RESOURCES_MAIN = "";
 
     public S3ServerMock() {
     }

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Getter
 public class AwsProperties {
+    private Boolean enabled;
     private String region;
     private String bucketName;
 
