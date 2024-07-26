@@ -4,7 +4,7 @@ Very basic version 0.1.0
 - setup S3 bucket with manually uploaded cat pics
 - app read random pic on demand
     -- app pics random picture first time it is requested and for whole day returns only this pic
-- frontend - vaadin, just single button and place for displaying pic
+- frontend - spring mvc with thymeleaf
 
 Future versions:
 - create user accounts
