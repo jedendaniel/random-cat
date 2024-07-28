@@ -5,9 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <div th:replace="header :: header">
+    <div th:replace="~{header :: header}">
     </div>
-    <p th:text="|Greetings from ${appName}!|"></p>
+    <p th:text="|Hello ${user.name}, greetings from a random cat!|"></p>
     <p th:text="|Click to generate random cat picture|"></p>
     <a th:href ="@{cat}" class="btn btn-success btn-block">Generate</a>
 </body>
