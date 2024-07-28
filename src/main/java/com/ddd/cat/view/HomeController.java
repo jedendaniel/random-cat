@@ -27,4 +27,15 @@ public class HomeController {
         model.addAttribute("catPicture", pictureBase64);
         return "cat.html";
     }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact.html";
+    }
+
+
+    @GetMapping("/login")
+    public String login() {
+        return "login.html";
+    }
 }

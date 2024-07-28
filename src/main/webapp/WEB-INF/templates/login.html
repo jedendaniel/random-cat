@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Random cat home</title>
+    <title>Random cat login</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<img th:src="|data:image/jpg;charset=utf-8;base64, ${catPicture}|" alt="">
+<div th:replace="header :: header">
+</div>
 </body>
 </html>
