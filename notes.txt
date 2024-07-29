@@ -15,6 +15,10 @@ Future versions:
 - introduce more cats
     - premium: allow to choose a cat
 
+Multi-language version:
+- add other languages like Polish or Spanish
+
 Be careful versions:
 - users upload their pics - make it restricted, under review so db does not blow up, or if user paid?
 - videos?
+
