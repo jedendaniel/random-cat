@@ -1,15 +1,15 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://thmeleaf.org">
+<html xmlns:th="http://thmeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <body>
     <div class="navbar" th:fragment="header">
         <!-- Load an icon library -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link th:href="@{/css/main.css}" rel="stylesheet">
         
-        <a>Random cat</a>
-        <a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a class="active" href="/"><i class="fa fa-fw fa-home"></i> Random cat</a>
         <a href="contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
-        <a href="login"><i class="fa fa-fw fa-user"></i> Login</a>
+        <a sec:authorize="!isAuthenticated()" href="login"><i class="fa fa-fw fa-user"></i> Login</a>
+        <a sec:authorize="isAuthenticated()" href="logout"><i class="fa fa-fw fa-user"></i> Logout</a>
     </div>
 </body>
 </html>

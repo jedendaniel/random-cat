@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,16 +22,16 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder().encode("user1Pass"))
+        UserDetails user1 = User.withUsername("user")
+                .password(passwordEncoder().encode("user"))
                 .roles("USER")
                 .build();
         UserDetails user2 = User.withUsername("user2")
-                .password(passwordEncoder().encode("user2Pass"))
+                .password(passwordEncoder().encode("user2"))
                 .roles("USER")
                 .build();
         UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("adminPass"))
+                .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(user1, user2, admin);
@@ -41,9 +40,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/premium").authenticated()
-                        .requestMatchers("/**").permitAll());
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/index", true)
+                        .failureUrl("/login-error"))
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login"))
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/", "/login").permitAll()
+                        .anyRequest().authenticated());
         return http.build();
     }
 }
