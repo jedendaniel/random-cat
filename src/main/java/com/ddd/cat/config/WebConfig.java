@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
@@ -51,6 +52,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
     }
 
@@ -63,8 +65,8 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/contact").setViewName("contact");
-        registry.addViewController("/login-error").setViewName("login-error");
-        registry.addViewController("/logout").setViewName("logout");
-        registry.addViewController("/premium").setViewName("premium");
+        registry.addViewController("/premium-not-signed").setViewName("premium-not-signed");
+        registry.addViewController("/premium-signed").setViewName("premium-signed");
+        registry.addViewController("/registration").setViewName("registration");
     }
 }

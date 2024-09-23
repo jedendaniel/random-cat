@@ -1,10 +1,9 @@
 package com.ddd.cat.view;
 
 import com.ddd.cat.view.model.User;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,27 +14,35 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class LoginController {
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("user", new User());
+    public String loginForm(Model model, @ModelAttribute User user) {
+        model.addAttribute("loginError", model.getAttribute("loginError"));
         return "login";
     }
 
-    @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute User user) {
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        Authentication authentication = new TestingAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
-        context.setAuthentication(authentication);
-        return "redirect:index";
-    }
-
     @GetMapping("/login-error")
-    public String loginError(Model model) {
+    public String loginError(Model model, @ModelAttribute User user) {
         model.addAttribute("loginError", true);
-        return "redirect:login";
+        return "login";
     }
 
     @GetMapping("/logout")
-    public String logout() {
-        return "redirect:login";
+    public String logout(@ModelAttribute User user, HttpServletRequest request) {
+        SecurityContextHolder.clearContext();
+        HttpSession session= request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+        for(Cookie cookie : request.getCookies()) {
+            cookie.setMaxAge(0);
+        }
+        return "login";
+    }
+    @GetMapping("/registration")
+    public String registrationForm(@ModelAttribute User user) {
+        return "registration";
+    }
+    @PostMapping("/registration")
+    public String registration(@ModelAttribute User user) {
+        return "registration";
     }
 }

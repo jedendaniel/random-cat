@@ -15,9 +15,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .formLogin(form -> form
+                        .loginPage("/login").permitAll()
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/index", false)
+                        .failureUrl("/login-error")
+                        .permitAll())
+                .httpBasic(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login")
+                        .permitAll())
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/", "/index", "/home", "/contact", "/premium-not-signed", "/registration", "/css/main.css").permitAll()
+                        .anyRequest().authenticated());
+        return http.build();
     }
 
     @Bean
@@ -36,23 +51,8 @@ public class SecurityConfig {
                 .build();
         return new InMemoryUserDetailsManager(user1, user2, admin);
     }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/index", true)
-                        .failureUrl("/login-error"))
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login"))
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/", "/login").permitAll()
-                        .anyRequest().authenticated());
-        return http.build();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

@@ -9,7 +9,6 @@
 <body>
     <div th:replace="~{header :: header}">
     </div>
-    <h1 th:text="|Hello ${user.username}|"></h1>
     <p>Greetings from a random cat!</p>
     <p>Click to generate random cat picture</p>
     <a th:href ="@{cat}" class="btn btn-success btn-block">Generate</a>

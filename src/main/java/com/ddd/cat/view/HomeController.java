@@ -1,7 +1,6 @@
 package com.ddd.cat.view;
 
 import com.ddd.cat.service.RandomCatService;
-import com.ddd.cat.view.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +15,7 @@ public class HomeController {
     }
 
     @GetMapping({"/", "/index", "/home"})
-    public String index(Model model) {
-        model.addAttribute("user", new User("stranger", "pass"));
+    public String index() {
         return "index";
     }
 
