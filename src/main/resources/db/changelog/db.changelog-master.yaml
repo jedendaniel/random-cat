@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_createTable_users
+      author: kozlikd
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: CHAR(1)
+                  constraints:
+                    nullable: false
+        - createIndex:
+            tableName: users
+            indexName: users_id_username_index
+            columns:
+              - column:
+                  name: id
+              - column:
+                  name: username
+  - changeSet:
+      id: 2_createTable_authorities
+      author: kozlikd
+      changes:
+        - createTable:
+            tableName: authorities
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: authority
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_authority_users
+                    references: users(username)

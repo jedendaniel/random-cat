@@ -10,14 +10,14 @@ import java.util.List;
 
 @Setter
 @Getter
-public class User implements UserDetails {
+public class ViewUser implements UserDetails {
     private String username;
     private String password;
 
-    public User() {
+    public ViewUser() {
     }
 
-    public User(String username, String password) {
+    public ViewUser(String username, String password) {
         this.username = username;
         this.password = password;
     }

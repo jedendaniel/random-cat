@@ -8,8 +8,8 @@
 <div th:replace="~{header :: header}">
 </div>
 <h1>Registration page</h1>
-<p th:if="${loginError}" class="error">Wrong user or password</p>
-<form action="#" th:action="@{/registration}" th:object="${user}" method="post">
+<p th:if="${loginError}" class="error">Wrong viewUser or password</p>
+<form action="#" th:action="@{/registration}" th:object="${viewUser}" method="post">
     <p>Login: <input type="text" th:field="*{username}"/></p>
     <p>Password: <input type="text" th:field="*{password}" /></p>
     <p><input type="submit" value="Register" /></p>

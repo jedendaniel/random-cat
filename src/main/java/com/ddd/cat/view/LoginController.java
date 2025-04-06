@@ -1,6 +1,6 @@
 package com.ddd.cat.view;
 
-import com.ddd.cat.view.model.User;
+import com.ddd.cat.view.model.ViewUser;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class LoginController {
     @GetMapping("/login")
-    public String loginForm(Model model, @ModelAttribute User user) {
+    public String loginForm(Model model, @ModelAttribute ViewUser viewUser) {
         model.addAttribute("loginError", model.getAttribute("loginError"));
         return "login";
     }
 
     @GetMapping("/login-error")
-    public String loginError(Model model, @ModelAttribute User user) {
+    public String loginError(Model model, @ModelAttribute ViewUser viewUser) {
         model.addAttribute("loginError", true);
         return "login";
     }
 
     @GetMapping("/logout")
-    public String logout(@ModelAttribute User user, HttpServletRequest request) {
+    public String logout(@ModelAttribute ViewUser viewUser, HttpServletRequest request) {
         SecurityContextHolder.clearContext();
         HttpSession session= request.getSession(false);
         if(session != null) {
@@ -38,11 +38,11 @@ public class LoginController {
         return "login";
     }
     @GetMapping("/registration")
-    public String registrationForm(@ModelAttribute User user) {
+    public String registrationForm(@ModelAttribute ViewUser viewUser) {
         return "registration";
     }
     @PostMapping("/registration")
-    public String registration(@ModelAttribute User user) {
+    public String registration(@ModelAttribute ViewUser viewUser) {
         return "registration";
     }
 }

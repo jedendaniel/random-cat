@@ -9,8 +9,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -30,13 +33,13 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login")
                         .permitAll())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/", "/index", "/home", "/contact", "/premium-not-signed", "/registration", "/css/main.css").permitAll()
+                        .requestMatchers("/", "/index", "/home", "cat", "/contact", "/premium-not-signed", "/registration", "/css/main.css").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
         UserDetails user1 = User.withUsername("user")
                 .password(passwordEncoder().encode("user"))
                 .roles("USER")
@@ -49,7 +52,11 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user1, user2, admin);
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.createUser(user1);
+        users.createUser(user2);
+        users.createUser(admin);
+        return users;
     }
     @Bean
     public PasswordEncoder passwordEncoder() {

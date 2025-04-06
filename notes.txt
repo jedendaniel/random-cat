@@ -7,7 +7,7 @@ Very basic version 0.1.0
 - frontend - spring mvc with thymeleaf
 
 Future versions:
-- create user accounts
+- create viewUser accounts
 - premium version
     -- second pic available (similar to first one - same single selected picture for all users)
     -- ask to pay for charity
@@ -19,6 +19,26 @@ Multi-language version:
 - add other languages like Polish or Spanish
 
 Be careful versions:
-- users upload their pics - make it restricted, under review so db does not blow up, or if user paid?
+- users upload their pics - make it restricted, under review so db does not blow up, or if viewUser paid?
 - videos?
+
+
+TO DO:
+    - authorize users from database
+        * docker-compose with db
+        * liquibase with schema
+        * ORM with model and repository
+        * spring security
+        * it tests with test containers
+    - registration
+    - allow only premium users see premium cat
+    - allow to acquire premium
+    - refresh cat pic every day
+    - tests for current app
+    - connect with S3
+    - deploy to aws
+    - have it on actual web page
+
+    - docker compose
+    - more languages
 

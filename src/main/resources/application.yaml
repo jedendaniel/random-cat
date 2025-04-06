@@ -1,4 +1,13 @@
 spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/random_cat?createDatabaseIfNotExist=true
+    username: root
+    password: docker
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
   application:
     name: random-cat
 
