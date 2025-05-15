@@ -1,15 +1,21 @@
 package com.ddd.cat.view;
 
 import com.ddd.cat.auth.UserRegistrationService;
+import com.ddd.cat.view.model.ViewModelAttribute;
 import com.ddd.cat.view.model.ViewUser;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import static com.ddd.cat.view.model.ViewModelAttribute.LOGIN_ERROR;
+import static com.ddd.cat.view.model.ViewModelAttribute.REGISTRATION_SUCCESS;
 
 
 @Controller
@@ -23,19 +29,20 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginForm(Model model, @ModelAttribute ViewUser viewUser) {
-        model.addAttribute("loginError", model.getAttribute("loginError"));
+        model.addAttribute(LOGIN_ERROR.attribute(), model.getAttribute(LOGIN_ERROR.attribute()));
         return "login";
     }
 
     @GetMapping("/login-error")
     public String loginError(Model model, @ModelAttribute ViewUser viewUser) {
-        model.addAttribute("loginError", true);
+        model.addAttribute(LOGIN_ERROR.attribute(), true);
         return "login";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, @ModelAttribute ViewUser viewUser) {
-        HttpSession session= request.getSession(false);
+    public String logout(HttpServletRequest request, @ModelAttribute ViewUser viewUser) throws ServletException {
+        request.logout();
+        HttpSession session = request.getSession(false);
         if(session != null) {
             session.invalidate();
         }
@@ -45,18 +52,20 @@ public class LoginController {
         return "login";
     }
     @GetMapping("/registration")
-    public String registrationForm(@ModelAttribute ViewUser viewUser) {
+    public String registrationForm(Model model, @ModelAttribute ViewUser viewUser) {
+//        model.addAttribute(LOGIN_ERROR.attribute(), model.getAttribute(LOGIN_ERROR.attribute()));
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute ViewUser viewUser) {
-        userRegistrationService.register(viewUser);
-        return "index";
-    }
-
-    public String handleError(Model model) {
-        model.addAttribute("usernameInUseError", true);
-        return "registration";
+    public String registration(HttpServletRequest request, Model model, @ModelAttribute ViewUser viewUser) throws ServletException {
+        ViewModelAttribute viewModelAttribute = userRegistrationService.register(viewUser);
+        if (viewModelAttribute == REGISTRATION_SUCCESS) {
+            request.login(viewUser.getUsername(), viewUser.getPassword());
+            return "index";
+        } else {
+            model.addAttribute(viewModelAttribute.attribute(), true);
+            return "registration";
+        }
     }
 }

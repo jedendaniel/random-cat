@@ -8,12 +8,12 @@
 <div th:replace="~{header :: header}">
 </div>
 <h1>Registration page</h1>
-<p>Username can be max 16 characters long</p>
-<p th:if="${usernameInUseError}" class="error">Username already in use</p>
-<p th:if="${usernameTooLongError}" class="error">Username too long</p>
 <form action="#" th:action="@{/registration}" th:object="${viewUser}" method="post">
     <p>Username: <input type="text" th:field="*{username}"/></p>
+    <p>Email: <input type="text" th:field="*{email}" /></p>
     <p>Password: <input type="text" th:field="*{password}" /></p>
+    <p th:if="${registrationExists}" class="error" style="color:red">Username already in use</p>
+    <p th:if="${registrationNameTooLong}" class="error" style="color:red">Username too long (max 16 characters)</p>
     <p><input type="submit" value="Register" /></p>
 </form>
 </body>

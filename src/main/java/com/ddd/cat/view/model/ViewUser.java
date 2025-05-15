@@ -11,15 +11,14 @@ import java.util.List;
 @Setter
 @Getter
 public class ViewUser implements UserDetails {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
+    private final String email;
 
-    public ViewUser() {
-    }
-
-    public ViewUser(String username, String password) {
+    public ViewUser(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     @Override
