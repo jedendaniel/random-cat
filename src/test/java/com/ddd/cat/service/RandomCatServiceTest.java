@@ -1,5 +1,7 @@
 package com.ddd.cat.service;
 
+import com.ddd.cat.domain.RandomCatService;
+import com.ddd.cat.domain.S3Service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

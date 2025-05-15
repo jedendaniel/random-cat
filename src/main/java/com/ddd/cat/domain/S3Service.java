@@ -1,4 +1,4 @@
-package com.ddd.cat.service;
+package com.ddd.cat.domain;
 
 import com.ddd.cat.properties.AwsProperties;
 import org.springframework.stereotype.Service;

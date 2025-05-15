@@ -1,4 +1,4 @@
-package com.ddd.cat.service;
+package com.ddd.cat.domain;
 
 import org.springframework.stereotype.Service;
 

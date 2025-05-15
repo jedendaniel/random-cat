@@ -25,12 +25,11 @@ Be careful versions:
 
 TO DO:
     - authorize users from database
-        * docker-compose with db
-        * liquibase with schema
-        * ORM with model and repository
-        * spring security
-        * it tests with test containers
+        * spring security with database
     - registration
+        * check if user exists
+            + is user repository needed?
+        * return and handle error codes to the page
     - allow only premium users see premium cat
     - allow to acquire premium
     - refresh cat pic every day

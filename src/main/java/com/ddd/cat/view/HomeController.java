@@ -1,6 +1,6 @@
 package com.ddd.cat.view;
 
-import com.ddd.cat.service.RandomCatService;
+import com.ddd.cat.domain.RandomCatService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

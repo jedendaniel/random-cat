@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -24,8 +22,8 @@ public class SecurityConfig {
         http
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/index", false)
+                        .loginProcessingUrl("/login-action")
+                        .defaultSuccessUrl("/index", true)
                         .failureUrl("/login-error")
                         .permitAll())
                 .httpBasic(Customizer.withDefaults())
@@ -40,24 +38,9 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        UserDetails user1 = User.withUsername("user")
-                .password(passwordEncoder().encode("user"))
-                .roles("USER")
-                .build();
-        UserDetails user2 = User.withUsername("user2")
-                .password(passwordEncoder().encode("user2"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.createUser(user1);
-        users.createUser(user2);
-        users.createUser(admin);
-        return users;
+        return new JdbcUserDetailsManager(dataSource);
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

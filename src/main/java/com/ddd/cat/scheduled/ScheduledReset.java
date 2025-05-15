@@ -1,6 +1,6 @@
 package com.ddd.cat.scheduled;
 
-import com.ddd.cat.service.RandomCatService;
+import com.ddd.cat.domain.RandomCatService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

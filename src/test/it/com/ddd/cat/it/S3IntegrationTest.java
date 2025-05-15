@@ -1,7 +1,7 @@
 package com.ddd.cat.it;
 
 import com.ddd.cat.properties.AwsProperties;
-import com.ddd.cat.service.S3Service;
+import com.ddd.cat.domain.S3Service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

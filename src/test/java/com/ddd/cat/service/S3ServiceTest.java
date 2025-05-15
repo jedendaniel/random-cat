@@ -1,5 +1,6 @@
 package com.ddd.cat.service;
 
+import com.ddd.cat.domain.S3Service;
 import com.ddd.cat.properties.AwsProperties;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.services.s3.S3Client;

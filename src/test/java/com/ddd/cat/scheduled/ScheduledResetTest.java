@@ -1,6 +1,6 @@
 package com.ddd.cat.scheduled;
 
-import com.ddd.cat.service.RandomCatService;
+import com.ddd.cat.domain.RandomCatService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
