@@ -25,6 +25,7 @@ Be careful versions:
 
 TO DO:
     - fix bug that after logout any thymeleaf authentication info does not exist until refresh
+    - require not empty registration data (how to handle validation?)
     - authorize users from database
         * spring security with database
     - registration

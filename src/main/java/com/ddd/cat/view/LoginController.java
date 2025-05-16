@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Optional;
+
 import static com.ddd.cat.view.model.ViewModelAttribute.LOGIN_ERROR;
+import static com.ddd.cat.view.model.ViewModelAttribute.REGISTRATION_NAME_TOO_LONG;
 import static com.ddd.cat.view.model.ViewModelAttribute.REGISTRATION_SUCCESS;
+import static com.ddd.cat.view.model.ViewModelAttribute.REGISTRATION_USER_EXISTS;
 
 
 @Controller
@@ -53,19 +57,28 @@ public class LoginController {
     }
     @GetMapping("/registration")
     public String registrationForm(Model model, @ModelAttribute ViewUser viewUser) {
-//        model.addAttribute(LOGIN_ERROR.attribute(), model.getAttribute(LOGIN_ERROR.attribute()));
         return "registration";
     }
 
     @PostMapping("/registration")
     public String registration(HttpServletRequest request, Model model, @ModelAttribute ViewUser viewUser) throws ServletException {
-        ViewModelAttribute viewModelAttribute = userRegistrationService.register(viewUser);
-        if (viewModelAttribute == REGISTRATION_SUCCESS) {
+        Optional<ViewModelAttribute> viewModelAttribute = validateRegistrationData(viewUser);
+        if (viewModelAttribute.isPresent()) {
+            model.addAttribute(viewModelAttribute.get().attribute(), "true");
+            return "registration";
+        } else {
+            userRegistrationService.register(viewUser);
             request.login(viewUser.getUsername(), viewUser.getPassword());
             return "index";
-        } else {
-            model.addAttribute(viewModelAttribute.attribute(), true);
-            return "registration";
         }
+    }
+
+    private Optional<ViewModelAttribute> validateRegistrationData(ViewUser viewUser) {
+        if (viewUser.getUsername().length() > 16) {
+            return Optional.of(REGISTRATION_NAME_TOO_LONG);
+        } else if (userRegistrationService.UserExists(viewUser)) {
+            return Optional.of(REGISTRATION_USER_EXISTS);
+        }
+        return Optional.empty();
     }
 }

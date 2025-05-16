@@ -3,6 +3,10 @@ package com.ddd.cat.service;
 import com.ddd.cat.domain.S3Service;
 import com.ddd.cat.properties.AwsProperties;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
@@ -15,10 +19,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class S3ServiceTest {
-    private final AwsProperties awsProperties = mock(AwsProperties.class);
-    private final S3Client s3Client = mock(S3Client.class);
-    private final S3Service s3Service = new S3Service(awsProperties, s3Client);
+
+    @Mock
+    private AwsProperties awsProperties;
+    @Mock
+    private S3Client s3Client;
+    @InjectMocks
+    private S3Service s3Service;
 
     @Test
     void shouldListObjectNames() {
