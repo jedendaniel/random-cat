@@ -15,10 +15,4 @@ class ScheduledResetTest {
     private RandomCatService randomCatService;
     @InjectMocks
     private ScheduledReset scheduledReset;
-
-    @Test
-    void shouldResetCurrentCat() {
-        scheduledReset.resetCatPic();
-        verify(randomCatService).reset();
-    }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -23,11 +24,12 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .loginProcessingUrl("/login-action")
-                        .defaultSuccessUrl("/index", true)
+                        .defaultSuccessUrl("/", true)
                         .failureUrl("/login-error")
                         .permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout -> logout
+                        .logoutUrl("/login")
                         .logoutSuccessUrl("/login")
                         .permitAll())
                 .authorizeHttpRequests((authorize) -> authorize

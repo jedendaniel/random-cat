@@ -16,6 +16,6 @@ public class ScheduledReset {
 
     @Scheduled(cron = "${scheduled.reset:0 0 0 * * *}")
     public void resetCatPic() {
-        randomCatService.reset();
+        randomCatService.refreshCatResources();
     }
 }

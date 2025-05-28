@@ -1,29 +1,53 @@
 package com.ddd.cat.domain;
 
+import com.ddd.cat.infra.FifoFixedSizedQueue;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 @Service
 public class RandomCatService {
     private final S3Service s3Service;
-    private byte[] currentCatPic = new byte[0];
+    private final Random random;
+    private final Queue<String> catsHistory;
+    private RandomCatResource baseCatResource;
+    private RandomCatResource premiumCatResource;
 
-    public RandomCatService(S3Service s3Service) {
+    public RandomCatService(S3Service s3Service, Random random,
+                            @Value("${randomCat.historySize}") Integer catsHistorySize) {
         this.s3Service = s3Service;
+        this.random = random;
+        this.catsHistory = new FifoFixedSizedQueue<>(catsHistorySize);
     }
 
-    public byte[] getRandomCatPic() {
-        if (currentCatPic.length == 0) {
-            List<String> catKeys = s3Service.listCatKeys();
-            String randomCatKey = catKeys.get(new Random().nextInt(catKeys.size()));
-            currentCatPic = s3Service.getCatPicAsByteArray(randomCatKey);
-        }
-        return currentCatPic;
+    @PostConstruct
+    public void initializeCats() {
+        refreshCatResources();
     }
 
-    public void reset() {
-        currentCatPic = new byte[0];
+    public byte[] getBaseCatPic() {
+        return baseCatResource.currentPic;
     }
+
+    public byte[] getPremiumCatPic() {
+        return premiumCatResource.currentPic;
+    }
+
+    public void refreshCatResources() {
+        List<String> catKeys = new ArrayList<>(s3Service.listCatKeys());
+        catKeys.removeAll(catsHistory);
+        String baseCatKey = catKeys.remove(random.nextInt(catKeys.size()));
+        catsHistory.offer(baseCatKey);
+        baseCatResource = new RandomCatResource(baseCatKey, s3Service.getCatPicAsByteArray(baseCatKey));
+        String premiumCatKey = catKeys.remove(random.nextInt(catKeys.size()));
+        premiumCatResource = new RandomCatResource(premiumCatKey, s3Service.getCatPicAsByteArray(premiumCatKey));
+        catsHistory.offer(premiumCatKey);
+    }
+
+    record RandomCatResource(String s3Key, byte[] currentPic) {}
 }

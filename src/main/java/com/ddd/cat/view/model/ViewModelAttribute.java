@@ -2,6 +2,7 @@ package com.ddd.cat.view.model;
 
 public enum ViewModelAttribute {
     CAT_PICTURE("catPicture"),
+    CAT_PREMIUM_PICTURE("catPremiumPicture"),
     LOGIN_ERROR("loginError"),
     REGISTRATION_SUCCESS("registrationSuccess"),
     REGISTRATION_NAME_TOO_LONG("registrationNameTooLong"),

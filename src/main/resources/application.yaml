@@ -19,5 +19,8 @@ aws:
   region: eu-central-1
   bucketName: ddd-cat-bucket
 
+randomCat:
+  historySize: 20
+
 scheduled:
   reset: "0 0 0 * * *"
