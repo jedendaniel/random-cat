@@ -8,12 +8,20 @@
 <div th:replace="~{header :: header}">
 </div>
 <h1>Registration page</h1>
-<form action="#" th:action="@{/registration}" th:object="${viewUser}" method="post">
+<form action="#" th:action="@{/registration}" th:object="${userDTO}" method="post">
     <p>Username: <input type="text" th:field="*{username}"/></p>
+    <p th:if="${validationErrorsMap.containsKey('usernameInUse')}" class="error" style="color:red" th:text="${validationErrorsMap.get('usernameInUse')}"></p>
+    <p th:if="${validationErrorsMap.containsKey('usernameEmpty')}" class="error" style="color:red" th:text="${validationErrorsMap.get('usernameEmpty')}"></p>
+    <p th:if="${validationErrorsMap.containsKey('usernameTooLong')}" class="error" style="color:red" th:text="${validationErrorsMap.get('usernameTooLong')}"></p>
     <p>Email: <input type="text" th:field="*{email}" /></p>
+    <p th:if="${validationErrorsMap.containsKey('emailEmpty')}" class="error" style="color:red" th:text="${validationErrorsMap.get('emailEmpty')}"></p>
+    <p th:if="${validationErrorsMap.containsKey('emailTooLong')}" class="error" style="color:red" th:text="${validationErrorsMap.get('emailTooLong')}"></p>
+    <p th:if="${validationErrorsMap.containsKey('invalidEmail')}" class="error" style="color:red" th:text="${validationErrorsMap.get('invalidEmail')}"></p>
     <p>Password: <input type="text" th:field="*{password}" /></p>
-    <p th:if="${registrationExists}" class="error" style="color:red">Username already in use</p>
-    <p th:if="${registrationNameTooLong}" class="error" style="color:red">Username too long (max 16 characters)</p>
+    <p>Confirm password: <input type="text" th:field="*{matchingPassword}" /></p>
+    <p th:if="${validationErrorsMap.containsKey('passwordEmpty')}" class="error" style="color:red" th:text="${validationErrorsMap.get('passwordEmpty')}"></p>
+    <p th:if="${validationErrorsMap.containsKey('passwordTooLong')}" class="error" style="color:red" th:text="${validationErrorsMap.get('passwordTooLong')}"></p>
+    <p th:if="${validationErrorsMap.containsKey('passwordsDoNotMatch')}" class="error" style="color:red" th:text="${validationErrorsMap.get('passwordsDoNotMatch')}"></p>
     <p><input type="submit" value="Register" /></p>
 </form>
 </body>

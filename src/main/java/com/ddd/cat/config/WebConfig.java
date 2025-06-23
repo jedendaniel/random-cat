@@ -1,7 +1,7 @@
 package com.ddd.cat.config;
 
 import com.ddd.cat.properties.DevelopmentProperties;
-import com.ddd.cat.view.model.ViewCatPic;
+import com.ddd.cat.view.model.CatPicDTO;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -69,14 +69,14 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public ViewCatPic baseCatPicture() {
-        return new ViewCatPic();
+    public CatPicDTO baseCatPicture() {
+        return new CatPicDTO();
     }
 
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-    public ViewCatPic premiumCatPicture() {
-        return new ViewCatPic();
+    public CatPicDTO premiumCatPicture() {
+        return new CatPicDTO();
     }
 
 

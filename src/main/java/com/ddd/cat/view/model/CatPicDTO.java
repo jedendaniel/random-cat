@@ -1,6 +1,6 @@
 package com.ddd.cat.view.model;
 
-public class ViewCatPic {
+public class CatPicDTO {
     String catPic;
 
     public String getCatPic() {

@@ -8,16 +8,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Setter
 @Getter
-public class ViewUser implements UserDetails {
+@Setter
+public class UserDTO implements UserDetails {
     private final String username;
     private final String password;
+    private final String matchingPassword;
     private final String email;
 
-    public ViewUser(String username, String password, String email) {
+    public UserDTO(String username, String password, String matchingPassword, String email) {
         this.username = username;
         this.password = password;
+        this.matchingPassword = matchingPassword;
         this.email = email;
     }
 

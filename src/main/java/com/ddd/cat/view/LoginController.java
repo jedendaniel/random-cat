@@ -1,8 +1,7 @@
 package com.ddd.cat.view;
 
 import com.ddd.cat.auth.UserRegistrationService;
-import com.ddd.cat.view.model.ViewModelAttribute;
-import com.ddd.cat.view.model.ViewUser;
+import com.ddd.cat.view.model.UserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,11 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Optional;
+import java.util.Map;
 
 import static com.ddd.cat.view.model.ViewModelAttribute.LOGIN_ERROR;
-import static com.ddd.cat.view.model.ViewModelAttribute.REGISTRATION_NAME_TOO_LONG;
-import static com.ddd.cat.view.model.ViewModelAttribute.REGISTRATION_USER_EXISTS;
 
 
 @Controller
@@ -30,19 +27,19 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model, @ModelAttribute ViewUser viewUser) {
+    public String loginForm(Model model, @ModelAttribute UserDTO userDTO) {
         model.addAttribute(LOGIN_ERROR.attribute(), model.getAttribute(LOGIN_ERROR.attribute()));
         return "login";
     }
 
     @GetMapping("/login-error")
-    public String loginError(Model model, @ModelAttribute ViewUser viewUser) {
+    public String loginError(Model model, @ModelAttribute UserDTO userDTO) {
         model.addAttribute(LOGIN_ERROR.attribute(), true);
         return "login";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, @ModelAttribute ViewUser viewUser) throws ServletException {
+    public String logout(HttpServletRequest request, @ModelAttribute UserDTO userDTO) throws ServletException {
         request.logout();
         HttpSession session = request.getSession(false);
         if(session != null) {
@@ -55,29 +52,20 @@ public class LoginController {
     }
 
     @GetMapping("/registration")
-    public String registrationForm(Model model, @ModelAttribute ViewUser viewUser) {
+    public String registrationForm(Model model, @ModelAttribute UserDTO userDTO) {
+        model.addAttribute("validationErrorsMap", Map.of());
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration(HttpServletRequest request, Model model, @ModelAttribute ViewUser viewUser) throws ServletException {
-        Optional<ViewModelAttribute> viewModelAttribute = validateRegistrationData(viewUser);
-        if (viewModelAttribute.isPresent()) {
-            model.addAttribute(viewModelAttribute.get().attribute(), "true");
-            return "registration";
-        } else {
-            userRegistrationService.register(viewUser);
-            request.login(viewUser.getUsername(), viewUser.getPassword());
+    public String registration(HttpServletRequest request, Model model, @ModelAttribute UserDTO userDTO) throws ServletException {
+            Map<String, String> validationErrors = userRegistrationService.register(userDTO);
+        if (validationErrors.isEmpty()) {
+            request.login(userDTO.getUsername(), userDTO.getPassword());
             return "index";
+        } else {
+                model.addAttribute("validationErrorsMap", validationErrors);
+            return "registration";
         }
-    }
-
-    private Optional<ViewModelAttribute> validateRegistrationData(ViewUser viewUser) {
-        if (viewUser.getUsername().length() > 16) {
-            return Optional.of(REGISTRATION_NAME_TOO_LONG);
-        } else if (userRegistrationService.UserExists(viewUser)) {
-            return Optional.of(REGISTRATION_USER_EXISTS);
-        }
-        return Optional.empty();
     }
 }

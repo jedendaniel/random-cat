@@ -7,7 +7,7 @@ Very basic version 0.1.0
 - frontend - spring mvc with thymeleaf
 
 Future versions:
-- create viewUser accounts
+- create userDTO accounts
 - premium version
     -- second pic available (similar to first one - same single selected picture for all users)
     -- ask to pay for charity
@@ -19,26 +19,24 @@ Multi-language version:
 - add other languages like Polish or Spanish
 
 Be careful versions:
-- users upload their pics - make it restricted, under review so db does not blow up, or if viewUser paid?
+- users upload their pics - make it restricted, under review so db does not blow up, or if userDTO paid?
 - videos?
 
 
 TO DO:
     - fix bug that after logout any thymeleaf authentication info does not exist until refresh
-    - require not empty registration data (how to handle validation?)
-    - authorize users from database
-        * spring security with database
-    - registration
-        * check if user exists
-            + is user repository needed?
-        * return and handle error codes to the page
-    - allow only premium users see premium cat
+            spring security is not using .logoutUrl nor .logoutSuccessUrl
+                2025-05-28T17:13:59.411+02:00  WARN 12468 --- [random-cat] [io-8080-exec-10] o.s.web.servlet.PageNotFound             : No mapping for GET /logout
+                2025-05-28T17:13:59.417+02:00  WARN 12468 --- [random-cat] [io-8080-exec-10] o.s.web.servlet.PageNotFound             : No endpoint GET /logout.
+            something wrong with WebConfig?
+    - use UserRepository to check if username and email are in use
+    - proper registration with email
     - allow to acquire premium
-    - refresh cat pic every day
     - tests for current app
     - connect with S3
     - deploy to aws
     - have it on actual web page
+    - refresh cat pic every day
 
     - docker compose
     - more languages

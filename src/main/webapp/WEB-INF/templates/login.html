@@ -8,7 +8,7 @@
 <div th:replace="~{header :: header}">
 </div>
 <h1>Login page</h1>
-<form action="#" th:action="@{/login-action}" th:object="${viewUser}" method="post">
+<form action="#" th:action="@{/login-action}" th:object="${userDTO}" method="post">
     <p>Username: <input type="text" th:field="*{username}"/></p>
     <p>Password: <input type="text" th:field="*{password}" /></p>
     <p th:if="${loginError}" class="error" style="color:red">Wrong username or password</p>
