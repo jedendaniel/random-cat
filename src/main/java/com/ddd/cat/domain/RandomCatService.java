@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
@@ -30,11 +31,14 @@ public class RandomCatService {
         refreshCatResources();
     }
 
-    public byte[] getBaseCatPic() {
+    public String getBaseCatPic() {
         return baseCatResource.currentPic;
     }
+    public RandomCatResource getBaseCatPicTest() {
+        return baseCatResource;
+    }
 
-    public byte[] getPremiumCatPic() {
+    public String getPremiumCatPic() {
         return premiumCatResource.currentPic;
     }
 
@@ -43,11 +47,11 @@ public class RandomCatService {
         catKeys.removeAll(catsHistory);
         String baseCatKey = catKeys.remove(random.nextInt(catKeys.size()));
         catsHistory.offer(baseCatKey);
-        baseCatResource = new RandomCatResource(baseCatKey, s3Service.getCatPicAsByteArray(baseCatKey));
+        baseCatResource = new RandomCatResource(baseCatKey, Base64.getEncoder().encodeToString(s3Service.getCatPicAsByteArray(baseCatKey)));
         String premiumCatKey = catKeys.remove(random.nextInt(catKeys.size()));
-        premiumCatResource = new RandomCatResource(premiumCatKey, s3Service.getCatPicAsByteArray(premiumCatKey));
+        premiumCatResource = new RandomCatResource(premiumCatKey, Base64.getEncoder().encodeToString((s3Service.getCatPicAsByteArray(premiumCatKey))));
         catsHistory.offer(premiumCatKey);
     }
 
-    record RandomCatResource(String s3Key, byte[] currentPic) {}
+    public record RandomCatResource(String s3Key, String currentPic) {}
 }

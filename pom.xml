@@ -76,6 +76,13 @@
 			<version>${aws.java.sdk.version}</version>
 		</dependency>
 
+		<!-- other -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20250517</version>
+		</dependency>
+
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

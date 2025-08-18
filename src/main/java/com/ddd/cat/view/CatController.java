@@ -1,48 +1,28 @@
 package com.ddd.cat.view;
 
 import com.ddd.cat.domain.RandomCatService;
-import com.ddd.cat.view.model.CatPicDTO;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.json.JSONObject;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Base64;
-
-import static com.ddd.cat.view.model.ViewModelAttribute.CAT_PICTURE;
-import static com.ddd.cat.view.model.ViewModelAttribute.CAT_PREMIUM_PICTURE;
-
-@Controller
+@CrossOrigin(origins = "http://localhost:4200/")
+@RestController()
 public class CatController {
     private final RandomCatService randomCatService;
-    private final CatPicDTO baseCatPicture;
-    private final CatPicDTO premiumCatPicture;
-    public CatController(RandomCatService randomCatService, CatPicDTO baseCatPicture, CatPicDTO premiumCatPicture) {
+    public CatController(RandomCatService randomCatService) {
         this.randomCatService = randomCatService;
-        this.baseCatPicture = baseCatPicture;
-        this.premiumCatPicture = premiumCatPicture;
     }
 
-    @GetMapping("/cat")
-    public String cat(Model model) {
-        if (baseCatPicture.getCatPic() == null) {
-            String pictureBase64 = Base64.getEncoder().encodeToString(randomCatService.getBaseCatPic());
-            model.addAttribute(CAT_PICTURE.attribute(), pictureBase64);
-            baseCatPicture.setCatPic(pictureBase64);
-        } else {
-            model.addAttribute(CAT_PICTURE.attribute(), baseCatPicture.getCatPic());
-        }
-        return "cat";
+    @GetMapping("/rest-cat")
+    public String cat() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("pic", randomCatService.getBaseCatPic());
+        return jsonObject.toString();
     }
 
-    @GetMapping("/premium-cat")
-    public String premiumCat(Model model) {
-        if (premiumCatPicture.getCatPic() == null) {
-            String pictureBase64 = Base64.getEncoder().encodeToString(randomCatService.getPremiumCatPic());
-            model.addAttribute(CAT_PREMIUM_PICTURE.attribute(), pictureBase64);
-            premiumCatPicture.setCatPic(pictureBase64);
-        } else {
-            model.addAttribute(CAT_PREMIUM_PICTURE.attribute(), premiumCatPicture.getCatPic());
-        }
-        return "premium-cat";
+    @GetMapping("/rest-premium-cat")
+    public String premiumCat() {
+        return randomCatService.getPremiumCatPic();
     }
 }
