@@ -4,6 +4,7 @@ import com.ddd.cat.domain.RandomCatService;
 import com.ddd.cat.domain.S3Service;
 import org.junit.jupiter.api.Test;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -46,12 +47,12 @@ class RandomCatResourceServiceTest {
                 .thenReturn(1);
 
         randomCatService.initializeCats();
-        assertEquals(baseCatPic1, randomCatService.getBaseCatPic());
-        assertEquals(premiumCatPic1, randomCatService.getPremiumCatPic());
+        assertEquals(Base64.getEncoder().encodeToString(baseCatPic1), randomCatService.getBaseCatPic());
+        assertEquals(Base64.getEncoder().encodeToString(premiumCatPic1), randomCatService.getPremiumCatPic());
 
         randomCatService.refreshCatResources();
-        assertEquals(baseCatPic2, randomCatService.getBaseCatPic());
-        assertEquals(premiumCatPic2, randomCatService.getPremiumCatPic());
+        assertEquals(Base64.getEncoder().encodeToString(baseCatPic2), randomCatService.getBaseCatPic());
+        assertEquals(Base64.getEncoder().encodeToString(premiumCatPic2), randomCatService.getPremiumCatPic());
 
         verify(s3Service, times(2)).listCatKeys();
         verify(s3Service, times(4)).getCatPicAsByteArray(any());

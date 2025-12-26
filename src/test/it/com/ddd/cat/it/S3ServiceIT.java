@@ -1,10 +1,9 @@
 package com.ddd.cat.it;
 
-import com.ddd.cat.properties.AwsProperties;
 import com.ddd.cat.domain.S3Service;
+import com.ddd.cat.properties.AwsProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -12,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-public class S3IntegrationTest {
+public class S3ServiceIT extends BaseIT {
     @Autowired
     private S3Service s3Service;
     @Autowired
