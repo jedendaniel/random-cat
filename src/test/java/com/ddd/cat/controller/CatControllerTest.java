@@ -5,11 +5,9 @@ import com.ddd.cat.domain.RandomCatService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.client.RestTestClient;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -29,7 +27,7 @@ class CatControllerTest {
         when(randomCatService.getBaseCatPic()).thenReturn("byteArray");
 
         Cat responseBody = client.get()
-                .uri("/api/v1/cat")
+                .uri("/cat")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(new ParameterizedTypeReference<Cat>() {})

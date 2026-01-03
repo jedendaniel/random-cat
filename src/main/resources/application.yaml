@@ -8,16 +8,19 @@ spring:
     hibernate:
       ddl-auto: update
       show-sql: true
+      auto-quote_keyword: true
   application:
     name: random-cat
 
-development:
-  templateResolverCacheable: false
 
 aws:
 #  enabled: true
   region: eu-central-1
   bucketName: ddd-cat-bucket
+
+jwt:
+  secret: "very-long-secret-key-at-least-32-bytes-long"
+  expiration-ms: 600000
 
 randomCat:
   historySize: 20
